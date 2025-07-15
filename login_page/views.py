@@ -141,28 +141,8 @@ def process_frames(request):
              male_emotions2 = face_data2.male_emotions
              female_emotions2 = face_data2.female_emotions
 
-                
 
-#                try:
- #                   video = Video.objects.get(id=video_id)
-  #                  video.number_of_men += number_of_men
-   #                 video.number_of_women += number_of_women
-                    
-    #                if(video.number_of_women>video.number_of_men):
-     #                    video.gender_tag = 'Female'
-                         
-      #              elif(video.number_of_women<video.number_of_men):
-       #                 video.gender_tag = 'Male'
-                        
-        #            else:
-         #               video.gender_tag = 'Neutral'
-                        
-          #          video.save()
-           #     except Video.DoesNotExist:
-            #        return JsonResponse({'error': 'Video not found'})
-
-                # Update the video views based on the number of people detected
-                
+            # Update the video views based on the number of people detected    
     
             number_of_faces+=number_of_faces2
             number_of_men+=number_of_men2
