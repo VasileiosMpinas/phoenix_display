@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Options</title>
+    <style>
+        body {
+            background-image: url("/media/images/start2.jpg");
+        }
+
+        h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        a.button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+            a.button:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+    <form id="videoForm" action="/video" method="post">
+        <h3>Επιλέξτε για μεταφόρτωση ή παρακολούθηση βίντεο</h3>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% csrf_token %}
+        <a href="/upload" class="button" onclick="submitForm('/upload')">Δημιουργία διαφημιστικής λίστας</a>
+        <br>
+        <br>
+        <a href="/watch_video" class="button" onclick="submitForm('/watch_video')">Εκκίνηση προγράμματος</a>
+        <br>
+        <br>
+        <a href="/stat" class="button" onclick="submitForm('/stat')">Στατιστική ανάλυση</a>
+        <br>
+        <br>
+        <a href="/video_list" class="button" onclick="submitForm('/video_list')">Λίστα Βίντεο</a>
+    </form>
+
+    <script>
+        function submitForm(action) {
+            document.getElementById('videoForm').action = action;
+            document.getElementById('videoForm').submit();
+        }
+    </script>
+</body>
+</html>

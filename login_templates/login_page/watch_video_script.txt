@@ -1,0 +1,136 @@
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const video = document.getElementById('webcam');
+            const videoElements = document.querySelectorAll('#videoPlaylist video');
+            const videoPlayer = document.getElementById('videoPlayer');
+            let currentVideoIndex = 0;
+            let cameraOpened = false;
+            let gender_comp;
+
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    video.srcObject = stream;
+                    cameraOpened = true;
+                    playNextVideo(); // Start playing videos after the camera is opened
+                })
+                .catch(error => {
+                    console.error('Error accessing webcam:', error);
+                });
+
+            function captureFrame() {
+                if (!cameraOpened) {
+                    return;  // Don't capture frames until the camera is opened
+                }
+
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const context = canvas.getContext('2d');
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                const imageData = canvas.toDataURL('image/jpeg', 0.8); // Convert to base64
+
+                // Iterate through video elements and send data for each
+
+                sendToServer(imageData);
+            }
+
+            setInterval(captureFrame, 1000); // Capture a frame every second
+
+            function sendToServer(imageData) {
+                const url = `/process_frames/`;
+
+                // Simulate the asynchronous process of fetching gender_comp
+                setTimeout(() => {
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value
+                        },
+                        body: JSON.stringify({ image_data: imageData }),
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            gender_comp = data.gender_comp;
+                        })
+                        .catch(error => {
+                            console.error('Error sending data to server:', error);
+                        });
+                }, 1000);  // Simulating delay for fetching gender_comp
+            }
+
+            function playNextVideo() {
+                fetchVideoData().then(videoData => {
+                    const nextVideoIndex = (currentVideoIndex + 1) % videoData.length;
+                    const nextVideoInfo = videoData[nextVideoIndex];
+
+                    // Check if the next video's gender tag matches gender_comp
+                    if (nextVideoInfo.gender_tag === 'Άνδρας' && gender_comp === 'Male' ||
+                        nextVideoInfo.gender_tag === 'Γυναίκα' && gender_comp === 'Female') {
+                        videoPlayer.innerHTML = '';  // Clear existing sources
+                        const sourceElement = document.createElement('source');
+                        console.log('nextVideoInfo:', nextVideoInfo)
+                        sourceElement.src = nextVideoInfo.source;
+                        sourceElement.type = 'video/mp4';
+                        videoPlayer.appendChild(sourceElement);
+                        videoPlayer.load();
+                        videoPlayer.play();
+                        currentVideoIndex = nextVideoIndex;
+                    } else {
+                        // Skip the video and play the next one
+                        currentVideoIndex = nextVideoIndex;
+                        playNextVideo();
+                    }
+                });
+            }
+
+            function fetchVideoData() {
+                return fetch('/get_video_sources/')
+                    .then(response => response.json())
+                    .then(data => data.video_data)
+                    .catch(error => {
+                        console.error('Error fetching video data:', error);
+                        return [];
+                    });
+            }
+
+            // Automatically play the next video when the current one ends
+            videoPlayer.addEventListener('ended', function () {
+                playNextVideo();
+            });
+
+            document.addEventListener(
+                "keydown",
+                (e) => {
+                    if (e.key === "q") {
+                        toggleFullScreen();
+                    }
+                },
+                false,
+            );
+
+            function toggleFullScreen() {
+                const currentVideo = videoElements[currentVideoIndex];
+
+                // Check if the currentVideo is defined before accessing its properties
+                if (currentVideo) {
+                    if (!currentVideo.fullscreenElement) {
+                        // Use the correct property name to request fullscreen
+                        if (currentVideo.requestFullscreen) {
+                            currentVideo.requestFullscreen();
+                        } else if (currentVideo.webkitRequestFullscreen) {
+                            currentVideo.webkitRequestFullscreen();
+                        }
+                    } else if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+        });
+
+        function navigate(url) {
+            window.location.href = url;
+        }
+
+</script>

@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>Video Page</title>
+    
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d8c096;
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        h1, h2 {
+            font-size: 20px;
+            margin-top: 30px;
+            color: #333;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+
+        li {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        #videoContainer {
+            margin-top: 20px;
+        }
+
+        a.button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+            a.button:hover {
+                background-color: #0056b3;
+            }
+    </style>
+
+</head>
+<body>
+    <h1>Σελίδα Βίντεο</h1>
+
+    <form action="/watch_video" method="post">
+        {% csrf_token %}
+
+        <a href="/previous" class="button" onclick="submitForm('/previous')">Προηγούμενη Σελίδα</a>
+        <a href="/signout" class="button" onclick="submitForm('/signout')">Έξοδος</a>
+    </form>
+
+    <!-- Display uploaded videos -->
+    <div id="videoContainer">
+        <video id="videoPlayer" controls>
+            <!-- Video sources will be dynamically added here -->
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Display webcam feed -->
+    <video id="webcam" width="640" height="480" autoplay></video>
+
+    <script>
+        function submitForm(action) {
+            document.getElementById('videoForm').action = action;
+            document.getElementById('videoForm').submit();
+        }
+    </script>
+    <script src="" async defer></script>
+</body>
+</html>

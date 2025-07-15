@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d8c096;
+            text-align: center;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+
+        h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        h1, h2 {
+            font-size: 20px;
+            margin-top: 30px;
+            color: #333;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+
+        li {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            button[type="submit"]:hover {
+                background-color: #0056b3;
+            }
+
+        .print-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+            .print-button:hover {
+                background-color: #0056b3;
+            }
+
+
+        a.button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+            a.button:hover {
+                background-color: #0056b3;
+            }
+    </style>
+    <script>
+        function navigate(url) {
+            window.location.href = url;
+        }
+    </script>
+</head>
+<body>
+    <form id="videoForm" action="/video" method="post">
+        {% csrf_token %}
+        <a href="/previous" class="button" onclick="submitForm('/previous')">Προηγούμενη Σελίδα</a>
+        <a href="/signout" class="button" onclick="submitForm('/signout')">Έξοδος</a>
+
+        <h3>Στατιστική Ανάλυση δεδομένων</h3>
+
+
+        {% if face_data.is_reset_this_month %}
+        <br>
+        <br>
+        <p>Your statistics have been reset for this month.</p>
+        {% endif %}
+
+        <br>
+        <br>
+        <a class="button">Στατιστικά στοιχεία για τον {{ user.username }}</a>
+        <p><span style="background-color: black;"><font color="white">Αριθμός των ανθρώπων: {{ number_of_faces }}</font></span></p>
+        <p><span style="background-color: black;"><font color="white">Αριθμός Ανδρών: {{ number_of_men }}</font></span></p>
+        <p><span style="background-color: black;"><font color="white">Αριθμός Γυναικών: {{ number_of_women }}</font></span></p>
+        <p><span style="background-color: black;"><font color="white">Συνολικός χρόνος: {{ total_time }}</font></span></p>
+
+        <br>
+        <br>
+        <a class="button">Συναισθήματα Ανδρών</a>
+        <p><span style="background-color: black;"><font color="white">Χαρούμενοι Άνθρωποι: {{ male_emotions.happy_people }}</font></span></p>
+        <p><span style="background-color: black;"><font color="white">Θυμωμένοι Άνθρωποι: {{ male_emotions.angry_people }}</font></span></p>
+        <p><span style="background-color: black;"><font color="white">Αηδιασμένοι Άνθρωποι: {{ male_emotions.disgust_people }}</font></span></p>
+        <p><span style="background-color: black;"><font color="white">Φοβισμένοι Άνθρωποι: {{ male_emotions.fear_people }}</font></span></p>
+        <p><span style="background-color: black;"><font color="white">Λυπημένοι άνθρωποι: {{ male_emotions.sad_people }}</font></span></p>
+        <p><span style="background-color: black;"><font color="white">Έκπληκτοι Άνθρωποι: {{ male_emotions.surprise_people }}</font></span></p>
+        <p><span style="background-color: black;"><font color="white">Ουδέτεροι άνθρωποι: {{ male_emotions.neutral_people }}</font></span></p>
+
+
+        <br>
+        <br>
+        <a class="button">Συναισθήματα Γυναικών</a>
+        <p><span style="background-color: black;"><font color="white">Χαρούμενοι Άνθρωποι: {{ female_emotions.happy_people }}</font></span></p>
+        <p><span style="background-color: black;"><font color="white">Θυμωμένοι Άνθρωποι: {{ female_emotions.angry_people }}</font></span></p>
+        <p><span style="background-color: black;"><font color="white">Αηδιασμένοι Άνθρωποι: {{ female_emotions.disgust_people }}</font></span></p>
+        <p><span style="background-color: black;"><font color="white">Φοβισμένοι Άνθρωποι: {{ female_emotions.fear_people }}</font></span></p>
+        <p><span style="background-color: black;"><font color="white">Λυπημένοι άνθρωποι: {{ female_emotions.sad_people }}</font></span></p>
+        <p><span style="background-color: black;"><font color="white">Έκπληκτοι Άνθρωποι: {{ female_emotions.surprise_people }}</font></span></p>
+        <p><span style="background-color: black;"><font color="white">Ουδέτεροι άνθρωποι: {{ female_emotions.neutral_people }}</font></span></p>
+
+        <br>
+        <br>
+        <button class="print-button" onclick="printPage(event)">Εκτύπωση σε PDF</button>
+
+    </form>
+
+    <script>
+        function submitForm(action) {
+            document.getElementById('videoForm').action = action;
+            document.getElementById('videoForm').submit();
+        }
+    </script>
+
+    <script>
+        function printPage(event) {
+            event.preventDefault(); // Prevent the default behavior of the print button
+            window.print(); // Open the print dialog
+        }
+    </script>
+</body>
+</html>

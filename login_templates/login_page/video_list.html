@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d8c096;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .video-item {
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 640px;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+
+            button a {
+                color: #fff;
+                text-decoration: none;
+            }
+
+
+        a.button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+            a.button:hover {
+                background-color: #0056b3;
+            }
+
+        .delete-button {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #ff5c5c;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+            .delete-button:hover {
+                background-color: #ff4444;
+            }
+    </style>
+</head>
+<body>
+    <h1>Λίστα Βίντεο</h1>
+
+    <!-- Display uploaded videos -->
+    <div class="video-container">
+        <form action="/watch_video" method="post">
+            {% csrf_token %}
+            <a href="/previous" class="button" onclick="submitForm('/previous')">Προηγούμενη Σελίδα</a>
+            <a href="/signout" class="button" onclick="submitForm('/signout')">Έξοδος</a>
+
+            {% for video in videos %}
+            <div class="video-item">
+                <p><span style="background-color: black;"><font color="white"> Τίτλος: {{ video.title }} </font></span></p>
+               
+                <p><span style="background-color: black;"><font color="white"> Ετικέτα: {{ video.gender_tag }} </font></span></p>
+                
+                <a class="delete-button" href="{% url 'delete_video' video.pk %}">Διαγραφή</a>
+                
+                <video controls>
+                    <source src="{{ video.video_file.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            {% endfor %}
+        </form>
+        
+    </div>
+
+    
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</body>
+</html>

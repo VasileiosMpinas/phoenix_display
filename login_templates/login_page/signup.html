@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Εγγραφή στη σελίδα</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d8c096;
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #333;
+            text-align: left;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            button[type="submit"]:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+
+    <h3>Sign Up</h3>
+    <form action="/signup" method="post">
+        {% csrf_token %}
+        <label for="username">Όνομα Χρήστη</label>
+        <input type="text" id="username" name="username" placeholder="Πληκτρολογήστε το Όνομα Χρήστη (μόνο γράμματα και αριθμοί)" required>
+        <br><br>
+
+            <label for="fname">Όνομα</label>
+        <input type="text" id="fname" name="fname" placeholder="Πληκτρολογήστε το Όνομα" required>
+        <br><br>
+
+            <label for="lname">Επίθετο</label>
+        <input type="text" id="lname" name="lname" placeholder="Πληκτρολογήστε το Επίθετο" required>
+        <br><br>
+
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" placeholder="Πληκτρολογήστε το email" required>
+        <br><br>
+
+        <label for="pass1">Κωδικός</label>
+        <input type="password" id="pass1" name="pass1" placeholder="Πληκτρολογήστε τον Κωδικό" required>
+        <br><br>
+
+            <label for="pass2">Επιβεβαίωση Κωδικού</label>
+        <input type="password" id="pass2" name="pass2" placeholder="Επιβεβαιώστε τον Κωδικό" required>
+        <br><br>
+
+        <button type="submit">Εγγραφή</button>
+
+    </form>
+
+    <script src="" async defer></script>
+
+</body>
+</html>
