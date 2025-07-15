@@ -129,7 +129,6 @@ def process_frames(request):
                 return JsonResponse({
                     'gender_comp': gender_comp
                 })
-          #      return JsonResponse({'video':video,'gender_comp': gender_comp})
         
             except Exception as e:
              end_time=time.time()
@@ -259,7 +258,6 @@ def signin(request):
         if user is not None:
             login(request, user)
             user_meta=user._meta
-         #   messages.success(request, "You are logged in.")
             return render(request, "login_page/video.html")
         else:
             messages.error(request, "Λάθος όνομα χρήστη ή κωδικός! Παρακαλώ προσπαθήστε ξανά!")
@@ -274,7 +272,6 @@ def signin(request):
 
 def signout(request):
     logout(request)
- #   messages.success(request, "Logged out succefully!")
     return redirect('home')
 
 
@@ -330,11 +327,6 @@ def camera(request):
     
     # Filter videos based on the current user
     videos = Video.objects.filter(user=user)
-    
-  #  messages.success(request, "Logged in succefully!")
-   # video_id_list = [int(video_id) for video_id in video_ids.split(',')]
-    
-    #videos = Video.objects.filter(pk__in=video_id_list)
     return render(request, 'login_page/watch_video.html', {'videos': videos})
 
 
