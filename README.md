@@ -1,1 +1,3 @@
 # phoenix_display
+
+Web App that uses artificial intelligence to count the number of people, totally and by gender that are standing in front of the camera. It also counts how much time the people in front of the camera watched the videos that can be uploaded by the users. Finally it gives a report for the user with the number of people, totally and by gender, as well as the total time that people were looking at the videos. The videos that the user uploaded are played continuously, the one after the other. Based on the majority of one of the genders, videos with the male tag or female tag are being chosen to be played accordingly while the ones with the other tag are skipped. 
